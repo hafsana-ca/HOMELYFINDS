@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">ADD PRODUCTS</h4><br>
+                  <p class="card-description">
+
+                  </p>
+                  <form class="forms-sample" method="post" action="{% url 'add_products' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label >Category Name</label>
+                      <select id="exampleselect" name="name" class="form-control" >
+                                <option>Select Category</option>
+                                {% for d in category %}
+                                <option value="{{ d.Name }}">{{ d.Name }}</option>
+                                {% endfor %}
+                            </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputEmail3">Product Name</label>
+                      <input type="text" class="form-control" id="exampleInputEmail3" placeholder="Product Name" name="productname">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputEmail4">Brand Name</label>
+                      <input type="text" class="form-control" id="exampleInputEmail4" placeholder="Brand Name" name="brandname">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputCity1">Price</label>
+                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="Price" name="price">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputCity1">Weight</label>
+                      <input type="text" class="form-control" id="exampleInputCity2" placeholder="Weight" name="weight">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleTextarea1">Description</label>
+                      <textarea class="form-control" id="exampleTextarea1" rows="7" placeholder="Description" name="description"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <label>File upload 1</label><br>
+                      <input type="file" name="image1" >
+                    </div>
+
+                    <div class="form-group">
+                      <label>File upload 2</label><br>
+                      <input type="file" name="image2" >
+                    </div>
+
+                    <div class="form-group">
+                      <label>File upload 3</label><br>
+                      <input type="file" name="image3" >
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Status : </label>
+                          <div class="col-sm-9">
+                            <select class="form-control" name="status" required style="margin-top:5px;">
+                               <option value="available">Available</option>
+                                <option value="coming_soon">Coming Soon</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-check form-check-flat form-check-primary">
+                      <label class="form-check-label">Is Deal of the week ?<br>
+                        <input type="checkbox" class="form-check-input" name="is_deal_of_the_week">
+                      <i class="input-helper"></i></label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+    {% for i in messages %}
+
+        {% if i.tags == 'warning' %}
+            <script>
+                swal('{{i}}', '', 'warning');
+            </script>
+        {% elif i.tags == 'error' %}
+            <script>
+                swal('{{i}}', '', 'error');
+            </script>
+        {% elif i.tags == 'info' %}
+            <script>
+                swal('{{i}}', '', 'info');
+            </script>
+        {% else %}
+            <script>
+                swal('{{i}}', '', 'success');
+            </script>
+
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+</body>
+</html>
+{% endblock %}

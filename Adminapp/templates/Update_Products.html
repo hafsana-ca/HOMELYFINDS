@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="col-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">ADD PRODUCTS</h4><br>
+                  <p class="card-description">
+
+                  </p>
+                  <form class="forms-sample" method="post" action="{% url 'update_product' data_id=data.id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label >Category Name</label>
+                      <select id="exampleselect" name="name" class="form-control">
+                            <option value="">Select Category</option>
+                            {% for d in categories %}
+                                <option value="{{ d.Name }}" {% if d.Name == data.Category_Name %}selected{% endif %}>
+                                    {{ d.Name }}
+                                </option>
+                            {% endfor %}
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputEmail3">Product Name</label>
+                      <input type="text" class="form-control" id="exampleInputEmail3" placeholder="Product Name" name="productname" value="{{data.Product_Name}}">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputEmail4">Brand Name</label>
+                      <input type="text" class="form-control" id="exampleInputEmail4" placeholder="Brand Name" name="brandname" value="{{data.Brand_Name}}">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputCity1">Price</label>
+                      <input type="text" class="form-control" id="exampleInputCity1" placeholder="Price" name="price" value="{{data.Price}}">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleInputCity1">Weight</label>
+                      <input type="text" class="form-control" id="exampleInputCity2" placeholder="Weight" name="weight" value="{{data.Weight}}">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="exampleTextarea1">Description</label>
+                      <textarea class="form-control" id="exampleTextarea1" rows="4" placeholder="Description" name="description">{{data.Product_Name}}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                      <label>File upload 1</label><br>
+                      <img src="{{data.Image1.url}}" width="80px" height="80px"><br><br>
+                      <input type="file" name="image1" >
+                    </div>
+
+                    <div class="form-group">
+                      <label>File upload 2</label><br>
+                      <img src="{{data.Image2.url}}" width="80px" height="80px"><br><br>
+                      <input type="file" name="image2" >
+                    </div>
+
+                    <div class="form-group">
+                      <label>File upload 3</label><br>
+                      <img src="{{data.Image3.url}}" width="80px" height="80px"><br><br>
+                      <input type="file" name="image3" >
+                    </div>
+
+                    <button type="submit" class="btn btn-primary me-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,766 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html lang="zxx" class="no-js">
+
+<head>
+	<!-- Mobile Specific Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon-->
+	<link rel="shortcut icon" href="{% static 'homestyles/img/fav.png' %}">
+	<!-- Author Meta -->
+	<meta name="author" content="CodePixar">
+	<!-- Meta Description -->
+	<meta name="description" content="">
+	<!-- Meta Keyword -->
+	<meta name="keywords" content="">
+	<!-- meta character set -->
+	<meta charset="UTF-8">
+	<!-- Site Title -->
+	<title>Karma Shop</title>
+	<!--
+		CSS
+		============================================= -->
+	<link rel="stylesheet" href="{% static 'homestyles/css/linearicons.css' %}">
+	<link rel="stylesheet" href="{% static 'homestyles/css/font-awesome.min.css' %}">
+	<link rel="stylesheet" href="{% static 'homestyles/css/themify-icons.css' %}">
+	<link rel="stylesheet" href="{% static 'homestyles/css/bootstrap.css' %}">
+	<link rel="stylesheet" href="{% static 'homestyles/css/owl.carousel.css' %}">
+	<link rel="stylesheet" href="{% static 'homestyles/css/nice-select.css' %}">
+	<link rel="stylesheet" href="{% static 'homestyles/css/nouislider.min.css' %}">
+	<link rel="stylesheet" href="{% static 'homestyles/css/ion.rangeSlider.css' %}" />
+	<link rel="stylesheet" href="{% static 'homestyles/css/ion.rangeSlider.skinFlat.css' %}" />
+	<link rel="stylesheet" href="{% static 'homestyles/css/magnific-popup.css' %}">
+	<link rel="stylesheet" href="{% static 'homestyles/css/main.css' %}">
+</head>
+
+<body>
+
+	<!-- Start Header Area -->
+	<header class="header_area sticky-header">
+		<div class="main_menu">
+			<nav class="navbar navbar-expand-lg navbar-light main_box" style="margin-top:20px;">
+				<div class="container">
+					<!-- Brand and toggle get grouped for better mobile display -->
+					<a class="navbar-brand logo_h" href="{% url 'homepage' %}" ><img src="{% static 'homestyles/img/homee.png' %}" alt="" height="70px;"></a>
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+						<ul class="nav navbar-nav menu_nav ml-auto">
+							<li class="nav-item "><a class="nav-link" href="{% url 'homepage' %}">Home</a></li>
+
+                                <li class="nav-item "><a class="nav-link" href="{% url 'aboutus' %}">About Us</a></li>
+
+							<li class="nav-item submenu dropdown">
+								<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+								 aria-expanded="false">CATEGORIES</a>
+								<ul class="dropdown-menu">
+									{% for i in cat %}
+									<li class="nav-item"><a class="nav-link" href="{% url 'filtered_product' cat_name=i.Name %}">{{i.Name}}</a></li>
+									{% endfor %}
+								</ul>
+							</li>
+
+
+							<li class="nav-item active"><a class="nav-link" href="{% url 'products' %}">Products</a></li>
+							<li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+						</ul>
+
+						<ul class="nav navbar-nav navbar-right" >
+							<li class="nav-item"><a href="{% url 'cart_page' %}" class="cart"><span class="ti-bag"></span></a></li>
+							<li class="nav-item"><a href="{% url 'wishlist_page' %}" class="cart"><span class="lnr lnr lnr-heart"></span></a></li>
+
+							<li class="nav-item">
+								<!-- Form for search functionality -->
+								<form action="{% url 'search_products' %}" method="GET" style="display: inline;">
+									<!-- Hidden search input that appears on icon click -->
+									<input type="text" name="q" id="search-input" placeholder="Search..." style="display: none;">
+									<!-- Search icon (clickable) -->
+									<button type="button" id="search-icon-btn" class="search">
+										<span class="lnr lnr-magnifier" id="search-icon1"></span>
+									</button>
+									<!-- Submit button that appears when input is visible -->
+									<button type="submit" id="submit-search-btn" class="search" style="display: none;"></button>
+								</form>
+							</li>
+
+
+							<li class="nav-item" style="margin-left:70px;">
+								<a href="#" id="popupButton">
+									<img src="{% static 'homestyles/img/admin.png' %}" style="margin-top:28px;height:18px;width:18px;">
+								</a>
+							</li>
+							<!-- Popup Box -->
+							<div id="popupBox" class="popup-box">
+								<div class="popup-content">
+									<span class="close-btn" id="closePopup">&times;</span>
+									<p id="userName">Welcome {{request.session.username}}</p>
+									<a href="{% url 'user_logout' %}">Logout</a>
+									<a href="http://127.0.0.1:8000/Adminapp/admin_login_page/">Admin Login</a>
+								</div>
+							</div>
+
+
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</div>
+
+
+	</header>
+	<!-- End Header Area -->
+
+	<!-- Start Banner Area -->
+	<section class="banner-area organic-breadcrumb">
+		<div class="container">
+			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+				<div class="col-first">
+					<h1>PRODUCT DETAILS</h1>
+					<nav class="d-flex align-items-center">
+						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="#">Shop<span class="lnr lnr-arrow-right"></span></a>
+						<a href="single-product.html">product-details</a>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Banner Area -->
+
+	<!--================Single Product Area =================-->
+	<div class="product_image_area">
+    <div class="container">
+        <div class="row s_product_inner">
+            <!-- Large Main Image -->
+            <div class="col-lg-6">
+                <div class="main-image">
+                    <img id="mainImage" class="img-fluid" src="{{ product.Image1.url }}" alt="Main Product Image">
+                </div>
+
+                <!-- Thumbnail Images -->
+                <div class="thumbnail-images d-flex justify-content-center mt-3">
+                    <img class="thumbnail img-fluid" src="{{ product.Image1.url }}" alt="Thumbnail 1" onclick="changeImage('{{ product.Image1.url }}')">
+                    <img class="thumbnail img-fluid" src="{{ product.Image2.url }}" alt="Thumbnail 2" onclick="changeImage('{{ product.Image2.url }}')">
+                    <img class="thumbnail img-fluid" src="{{ product.Image3.url }}" alt="Thumbnail 3" onclick="changeImage('{{ product.Image3.url }}')">
+                </div>
+            </div>
+
+            <!-- Product Details -->
+            <div class="col-lg-5 offset-lg-1">
+                <div class="square-shape">
+                    <form method="post" action="{% url 'add_to_wishlist' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="image" value="{{ product.Image1.url }}">
+                        <input type="hidden" name="price" value="{{ product.Price }}">
+                        <input type="hidden" name="username" value="{{ request.session.username }}">
+                        <input type="hidden" name="productname" value="{{ product.Product_Name }}">
+                        <input type="hidden" name="pro_id" value="{{ product.id }}">
+
+                        <button type="submit" class="heart-button" style="background: none; border: none;">
+                            <span class="heart-icon {% if is_in_wishlist %}wishlisted{% else %}not-wishlisted{% endif %}">
+                                <i class="fa {% if is_in_wishlist %}fa-heart{% else %}fa-heart-o{% endif %}"></i>
+                                <span class="tooltip-text">{% if is_in_wishlist %}Wishlisted{% else %}Add to Wishlist{% endif %}</span>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Other product details go here -->
+                <div class="s_product_text">
+                    <h3>{{ product.Product_Name }}</h3>
+                    <h2>Rs. {{ product.Price }}</h2>
+                    <ul class="list">
+                        <li><a class="active" href="#"><span>Category</span> : {{ product.Category_Name }}</a></li>
+                        <li><a href="#"><span>Brand</span> : {{ product.Brand_Name }}</a></li>
+                    </ul>
+                    <p>{{ product.Description }}</p>
+
+                    <!-- Quantity and Add to Cart -->
+                    <div class="card_area d-flex align-items-center">
+                        <form method="post" action="{% url 'add_cart' %}" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="product_count">
+                                <label>Quantity:</label>
+                                <input type="number" value="1" id="quantity" name="quantity">
+                            </div>
+                            <input type="hidden" name="pro_id" value="{{ product.id }}">
+                            <input type="hidden" name="price" value="{{ product.Price }}" id="price">
+                            <input type="hidden" name="username" value="{{ request.session.username }}" id="uname">
+                            <input type="hidden" name="productname" value="{{ product.Product_Name }}" id="pname">
+                            <input type="hidden" name="image" value="{{ product.Image1.url }}" id="image">
+                            <input type="text" name="total" id="totalprice" placeholder="Total" style="border:1px solid #ebebeb;">
+                            <button type="submit" class="primary-btn" style="border:none;">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	<br><br>
+	<!--================End Single Product Area =================-->
+
+	<!--================Product Description Area =================-->
+	<section class="product_description_area">
+		<div class="container">
+			<ul class="nav nav-tabs" id="myTab" role="tablist">
+				<li class="nav-item">
+					<a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Description</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile"
+					 aria-selected="false">Specification</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link active" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review"
+					 aria-selected="false">Reviews</a>
+				</li>
+			</ul>
+			<div class="tab-content" id="myTabContent">
+				<div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+					<p>{{ product.Description }}</p>
+				</div>
+				<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+					<div class="table-responsive">
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>
+										<h5>Name</h5>
+									</td>
+									<td>
+										<h5>{{ product.Product_Name }}</h5>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h5>Brand</h5>
+									</td>
+									<td>
+										<h5>{{ product.Brand_Name }}</h5>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h5>Category</h5>
+									</td>
+									<td>
+										<h5>{{ product.Category_Name }}</h5>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h5>Price</h5>
+									</td>
+									<td>
+										<h5>{{ product.Price }}</h5>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<h5>Quality checking</h5>
+									</td>
+									<td>
+										<h5>yes</h5>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<h5>When packeting</h5>
+									</td>
+									<td>
+										<h5>Without touch of hand</h5>
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+			<div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
+    <div class="row">
+        <!-- Overall Rating Section -->
+        <div class="col-lg-6 col-md-12">
+            <div class="row total_rate">
+                <div class="col-md-6">
+                    <div class="box_total text-center">
+                        <h5>Overall</h5>
+                        <!-- Average rating calculation -->
+                        <h4>{{ avg_rating|floatformat:1 }}</h4>
+                        <h6>({{ reviews.count }} Reviews)</h6>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="rating_list">
+                        <h3>Based on {{ reviews.count }} Reviews</h3>
+                        <ul class="list">
+                            {% for star in stars %}
+							<li>
+								{{ star }} Star
+								<span class="text-muted">({{ rating_counts.star }})</span>
+							</li>
+						{% endfor %}
+
+                        </ul>
+                    </div>
+                </div>
+            </div><br>
+
+            <!-- Individual Review List -->
+            <div class="review_list">
+                {% for review in reviews %}
+                    <div class="review_item">
+                        <div class="media">
+                            <div class="d-flex" >
+                                <img src="{% static 'homestyles/img/10398223.png' %}" alt="" class="img-fluid" style="border-radius:50%;border:3px solid #82807f;width:50px;height:50px;">
+                            </div>
+                            <div class="media-body">
+                                <h4>{{ review.user_name }}</h4>
+                                <span class="text-warning">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= review.rating %}
+                                            <i class="fa fa-star"></i>
+                                        {% else %}
+                                            <i class="fa fa-star-o"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </span>
+                                <p>{{ review.comment }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>No reviews yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Review Submission Form -->
+        <div class="col-lg-6 col-md-12">
+            <div class="review_box">
+                <h4>Add a Review</h4>
+                <form class="row" action="{% url 'your_review_submission_view' product.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="name" placeholder="Your Full Name" value="{{ request.session.username }}" required readonly>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="rating">Rating</label>
+                            <select class="form-control" name="rating" id="rating" required>
+                                <option value="5">5 - Excellent</option>
+                                <option value="4">4 - Very Good</option>
+                                <option value="3">3 - Good</option>
+                                <option value="2">2 - Fair</option>
+                                <option value="1">1 - Poor</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <textarea class="form-control" name="comment" rows="3" placeholder="Your Review" required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="primary-btn">Submit Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+			</div>
+		</div>
+	</section>
+	<!--================End Product Description Area =================-->
+
+	<!-- Start related-product Area -->
+		<section class="related-product-area section_gap_bottom">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 text-center">
+                <div class="section-title">
+                    <h1>Deals of the Week</h1>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="row">
+                    {% for product in deals_of_the_week %}
+                        <div class="col-lg-4 col-md-4 col-sm-6 mb-20">
+                            <div class="single-related-product d-flex">
+                                <a href="{% url 'single_product' product.id %}">
+                                    <img src="{{ product.Image1.url }}" alt="" style="height:100px;width:100px;box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);">
+                                </a>
+                                <div class="desc" style="width:400px;">
+                                    <a href="{% url 'single_product' product.id %}" class="title">{{ product.Product_Name }}</a>
+                                    <div class="price">
+                                        <h6>Rs. {{ product.Price }}</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="ctg-right">
+                    <a href="#" target="_blank">
+                        <img class="img-fluid d-block mx-auto" src="{% static 'homestyles/img/category/c5.jpg' %}" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+	<!-- End related-product Area -->
+
+	<!-- start footer Area -->
+	<footer class="footer-area section_gap">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3  col-md-6 col-sm-6">
+					<div class="single-footer-widget">
+						<h6>About Us</h6>
+						<p>
+							At Homely Finds, we specialize in curating stylish and practical
+							home essentials that transform your space into a personalized sanctuary of
+							comfort and elegance.
+						</p>
+					</div>
+				</div>
+				<div class="col-lg-4  col-md-6 col-sm-6">
+					<div class="single-footer-widget">
+						<h6>Newsletter</h6>
+						<p>Stay update with our latest</p>
+						<div class="" id="mc_embed_signup">
+
+							<form target="_blank" novalidate="true" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+							 method="get" class="form-inline">
+
+								<div class="d-flex flex-row">
+
+									<input class="form-control" name="EMAIL" placeholder="Enter Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
+									 required="" type="email">
+
+
+									<button class="click-btn btn btn-default"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+									<div style="position: absolute; left: -5000px;">
+										<input name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="" type="text">
+									</div>
+
+									<!-- <div class="col-lg-4 col-md-4">
+												<button class="bb-btn btn"><span class="lnr lnr-arrow-right"></span></button>
+											</div>  -->
+								</div>
+								<div class="info"></div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-3  col-md-6 col-sm-6">
+					<div class="single-footer-widget mail-chimp">
+						<h6 class="mb-20">Instragram Feed</h6>
+						<ul class="instafeed d-flex flex-wrap">
+							<li><img src="{% static 'homestyles/img/i1.jpg' %}" alt=""></li>
+							<li><img src="{% static 'homestyles/img/i2.jpg' %}" alt=""></li>
+							<li><img src="{% static 'homestyles/img/i3.jpg' %}" alt=""></li>
+							<li><img src="{% static 'homestyles/img/i4.jpg' %}" alt=""></li>
+							<li><img src="{% static 'homestyles/img/i5.jpg' %}" alt=""></li>
+							<li><img src="{% static 'homestyles/img/i6.jpg' %}" alt=""></li>
+							<li><img src="{% static 'homestyles/img/i7.jpg' %}" alt=""></li>
+							<li><img src="{% static 'homestyles/img/i8.jpg' %}" alt=""></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-2 col-md-6 col-sm-6">
+					<div class="single-footer-widget">
+						<h6>Follow Us</h6>
+						<p>Let us be social</p>
+						<div class="footer-social d-flex align-items-center">
+							<a href="#"><i class="fa fa-facebook"></i></a>
+							<a href="#"><i class="fa fa-twitter"></i></a>
+							<a href="#"><i class="fa fa-dribbble"></i></a>
+<!--							<a href="#"><i class="fa fa-behance"></i></a>-->
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
+				<p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+ &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank"> HomelyFinds</a>
+<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+</p>
+			</div>
+		</div>
+	</footer>
+	<!-- End footer Area -->
+
+	<script src="{% static 'homestyles/js/vendor/jquery-2.2.4.min.js' %}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+	 crossorigin="anonymous"></script>
+	<script src="{% static 'homestyles/js/vendor/bootstrap.min.js' %}"></script>
+	<script src="{% static 'homestyles/js/jquery.ajaxchimp.min.js' %}"></script>
+	<script src="{% static 'homestyles/js/jquery.nice-select.min.js' %}"></script>
+	<script src="{% static 'homestyles/js/jquery.sticky.js' %}"></script>
+	<script src="{% static 'homestyles/js/nouislider.min.js' %}"></script>
+	<script src="{% static 'homestyles/js/countdown.js' %}"></script>
+	<script src="{% static 'homestyles/js/jquery.magnific-popup.min.js' %}"></script>
+	<script src="{% static 'homestyles/js/owl.carousel.min.js' %}"></script>
+	<!--gmaps Js-->
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
+	<script src="{% static 'homestyles/js/gmaps.min.js' %}"></script>
+	<script src="{% static 'homestyles/js/main.js' %}"></script>
+
+	   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+{% if messages %}
+    {% for i in messages %}
+
+        {% if i.tags == 'warning' %}
+            <script>
+                swal('{{i}}', '', 'warning');
+            </script>
+        {% elif i.tags == 'error' %}
+            <script>
+                swal('{{i}}', '', 'error');
+            </script>
+        {% elif i.tags == 'info' %}
+            <script>
+                swal('{{i}}', '', 'info');
+            </script>
+        {% else %}
+            <script>
+                swal('{{i}}', '', 'success');
+            </script>
+
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+
+
+  <script>
+$(document).ready(function(){
+    $("#quantity").on('input', function(){
+        var quantity = parseFloat($("#quantity").val()) || 0;
+        var priceText = $("#price").val().replace(/,/g, '');  // Remove commas
+        var price = parseFloat(priceText) || 0;
+
+        // Calculate the result
+        var result = quantity * price;
+
+        // Set the result in the total price field
+        $("#totalprice").val(Math.round(result));  // Round to the nearest integer
+    });
+});
+</script>
+
+
+<style>
+	/* Container for the heart icon and tooltip */
+.heart-icon {
+    position: relative;
+    display: inline-block;
+}
+
+/* Tooltip text */
+.tooltip-text {
+    visibility: hidden;
+    width: 120px; /* Adjust width as needed */
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Adjust position */
+    left: 50%;
+    margin-left: -60px; /* Center the tooltip */
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+/* Show the tooltip text when hovering over the heart icon */
+.heart-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Style for the heart button */
+.heart-button i {
+    font-size: 24px; /* Adjust size as needed */
+    color: red; /* Change color for filled heart */
+}
+
+.heart-button i.fa-heart-o {
+    color: gray; /* Change color for outlined heart */
+}
+
+</style>
+
+	<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var popupButton = document.getElementById('popupButton');
+    var popupBox = document.getElementById('popupBox');
+    var closePopup = document.getElementById('closePopup');
+
+    popupButton.addEventListener('click', function (event) {
+        event.preventDefault();
+        popupBox.style.display = 'block';
+    });
+
+    closePopup.addEventListener('click', function () {
+        popupBox.style.display = 'none';
+    });
+
+    window.addEventListener('click', function (event) {
+        if (event.target === popupBox) {
+            popupBox.style.display = 'none';
+        }
+    });
+});
+</script>
+
+
+
+<style>
+.popup-box {
+    display: none;
+    position: fixed;
+    top: 50px; /* Adjust as needed */
+    right: 20px; /* Adjust as needed */
+    width: 300px;
+    background-color: #fff;
+    border: 5px solid #ddd; /* Border around the box */
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.1); /* Shadow effect */
+    z-index: 1000;
+    padding: 20px;
+    /* Optional: Add padding to give space inside the box */
+}
+.popup-box a {
+    text-decoration: none; /* Remove underline */
+    color: black; /* Default color, change as needed */
+    display: block; /* Make the link take the full width of the box */
+    padding: 10px 0; /* Add padding for better spacing */
+}
+
+.popup-box a:hover {
+    color: #ffba00; /* Change color on hover if needed */
+    text-decoration:none;
+}
+
+/* Specific style for the username */
+.popup-box .username {
+    font-weight: bold;
+    color: #007bff; /* Same color as the username */
+}
+
+
+
+.popup-content {
+    position: relative;
+}
+
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+</style>
+<script>
+document.getElementById('search-icon-btn').addEventListener('click', function() {
+    var searchInput = document.getElementById('search-input');
+    var submitButton = document.getElementById('submit-search-btn');
+
+    // Toggle the display of the search input
+    if (searchInput.style.display === 'none' || searchInput.style.display === '') {
+        searchInput.style.display = 'inline-block';  // Show the search input
+        submitButton.style.display = 'inline-block'; // Show submit button
+        searchInput.focus();  // Automatically focus the input for immediate typing
+    } else {
+        searchInput.style.display = 'none';  // Hide the search input
+        submitButton.style.display = 'none'; // Hide submit button
+    }
+});
+</script>
+
+<style>
+	/* Style the search form input */
+#search-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    font-size: 14px;
+    width: 200px;  /* Adjust width as needed */
+    display: none; /* Hidden by default */
+}
+
+/* Style the search button icon */
+#search-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* Ensure the submit button follows the input field */
+#submit-search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none; /* Hidden by default */
+}
+
+</style>
+
+<style>
+	.product_image_area .main-image img {
+    width: 100%;
+
+    object-fit: cover;
+}
+
+.thumbnail-images img {
+    width: 70px;
+    height: 100px;
+    margin: 0 10px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+    transition: border 0.3s;
+}
+
+.thumbnail-images img:hover {
+    border: 2px solid #333;
+}
+
+</style>
+
+<script>
+	function changeImage(src) {
+    document.getElementById('mainImage').src = src;
+}
+
+</script>
+</body>
+
+</html>

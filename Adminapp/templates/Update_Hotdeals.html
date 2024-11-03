@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% extends 'index.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Hot Deal</title>
+</head>
+<body>
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Update Hot Deal</h4>
+            <p class="card-description"></p><br>
+
+            <form class="forms-sample" method="post" action="{% url 'update_hotdeal' deal_id=hotdeal.id %}" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="exampleInputName1">Title</label>
+                    <input type="text" class="form-control" id="exampleInputName1" placeholder="Title" name="title" value="{{ hotdeal.title }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputName2">Start Date</label>
+                    <input type="date" class="form-control" id="exampleInputName2" name="start_date" value="{{ hotdeal.start_date }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputName3">End Date</label>
+                    <input type="date" class="form-control" id="exampleInputName3" name="end_date" value="{{ hotdeal.end_date }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Products:</label>
+                    <select class="form-control" name="products" required style="height: 150px;" multiple>
+                        {% for product in products %}
+                            <option value="{{ product.id }}"
+                                {% if product in hotdeal.products.all %}selected{% endif %}>
+                                {{ product.Product_Name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary me-2">Update</button>
+                <a href="{% url 'view_hot_deals' %}" class="btn btn-light">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+{% if messages %}
+    {% for i in messages %}
+        {% if i.tags == 'warning' %}
+            <script>
+                swal('{{i}}', '', 'warning');
+            </script>
+        {% elif i.tags == 'error' %}
+            <script>
+                swal('{{i}}', '', 'error');
+            </script>
+        {% elif i.tags == 'info' %}
+            <script>
+                swal('{{i}}', '', 'info');
+            </script>
+        {% else %}
+            <script>
+                swal('{{i}}', '', 'success');
+            </script>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
+</body>
+</html>
+{% endblock %}
